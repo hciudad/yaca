@@ -25,7 +25,7 @@
             payload;
 
         if (!$message.val()) return;
-        
+
         payload = {
             event_type: "message",
             username: user.username,
@@ -38,6 +38,15 @@
         $message.val("");
     };
 
+    let _register_user = (user) => {
+        payload = {
+            event_type: "register_user",
+            user: user,
+            timestamp: (new Date()).toUTCString()
+        };
+        ws.send(JSON.stringify(payload));
+    };
+
     return () => {
         console.info("Initializing chat.js")
 
@@ -46,11 +55,14 @@
         // alert(`Hello, ${user.display_name}!!!`);
 
         ws = new WebSocket("ws://localhost:8000/messages");
-        ws.onmessage = function (event) {
+        ws.onmessage = event => {
             let $message_list = $("#message-list"),
                 $message = $("<li>");
             $message.html(`<span style="color: #f00">${event.data}</span>`);
             $message.appendTo($message_list);
+        };
+        ws.onopen = event => {
+            _register_user(user);
         };
 
         $("form").submit(_send_message);

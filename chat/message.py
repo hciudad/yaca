@@ -23,4 +23,8 @@ class PubSubMessage:
 
     @property
     def is_message(self):
-        return self.type == "message"
+        """
+        This refers to Redis PubSub message type, not the Chat message
+        event type
+        """
+        return self.type == "message" or self.type == "pmessage"
