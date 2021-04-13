@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pexip-coding-exercise"
+name = "Yet Another Chat App"
 version = "0.1.0"
 description = ""
 authors = ["Hernán Ciudad <hciudad@gmail.com>"]
