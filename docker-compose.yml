@@ -1,0 +1,9 @@
+services:
+  web:
+    build: .
+    environment:
+      - REDIS_HOST=redis
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis
