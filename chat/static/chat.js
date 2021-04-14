@@ -82,7 +82,7 @@
 
         $("#greeting").text(`Me llamo ${user.display_name}!!`)
 
-        ws = new WebSocket("ws://localhost:8000/messages");
+        ws = new WebSocket(`${(window.location.protocol === "https:") ? "wss" : "ws"}://${window.location.host}/messages`);
         ws.onmessage = event => {
             let $message_list = $("#message-list"),
                 $participant_list = $("#nav-participants > .container"),
