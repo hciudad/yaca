@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -15,6 +16,8 @@ CHANNEL_NAME = "Status Meeting"
 CHANNEL_NAME_SLUG = "status-meeting"
 
 USER_MEMBERSHIP_SET = f"channel:{CHANNEL_NAME_SLUG}:users"
+
+REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory=APP_DIR / "static"), name="static")
@@ -33,7 +36,7 @@ async def get_messages(websocket: WebSocket):
     """
     await websocket.accept()
 
-    r = redis.Redis()
+    r = redis.Redis(host=REDIS_HOST)
     ps = r.pubsub(ignore_subscribe_messages=True)
     ps.psubscribe(f"channel:{CHANNEL_NAME_SLUG}:*")
 

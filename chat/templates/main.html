@@ -1,15 +1,46 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Chat</title>
-    </head>
-    <body>
-        <form action="">
-            <input type="text" autocomplete="off"/>
-            <button>Send</button>
-        </form>
-        <ul id="message-list"></ul>
-        <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript" src="/static/chat.js"></script>
-    </body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Chit chat</title>
+  </head>
+  <body class="bg-light">
+    <div class="container bg-light pb-3 px-3">
+        <div class="row">
+            <div id="channel-name" class="col h2 m-3 text-center">Status Meeting Standup</div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <nav>
+                    <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-participants-tab" data-toggle="tab" href="#nav-participants" role="tab" aria-controls="nav-participants" aria-selected="true">Participants (<span>0</span>)</a>
+                        <a class="nav-item nav-link" id="nav-chat-tab" data-toggle="tab" href="#nav-chat" role="tab" aria-controls="nav-chat" aria-selected="false">Chat</a>
+                    </div>
+                </nav>
+                <div class="tab-content border-rounded border-bottom border-left border-right bg-white" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-participants" role="tabpanel" aria-labelledby="nav-participants-tab">
+                        <div class="container p-3"></div>
+                    </div>
+                    <div class="tab-pane fade p-3" id="nav-chat" role="tabpanel" aria-labelledby="nav-chat-tab">
+                        <div id="message-list" class="container"></div>
+                        <form action="">
+                            <input type="text" class="form-control" autocomplete="off" placeholder="Message"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/static/chat.js"></script>
+  </body>
 </html>

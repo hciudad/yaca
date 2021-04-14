@@ -47,19 +47,70 @@
         ws.send(JSON.stringify(payload));
     };
 
+    let _message_tmpl = (message_text, display_name, timestamp) => `
+        <div class="row border-bottom py-3">
+            <div class="col">
+                <h6>
+                    ${display_name}
+                    <small class="text-muted">${(new Date(timestamp)).toLocaleTimeString()}</small>
+                </h6>
+                <p class="lead">${message_text}</p>
+            </div>
+        </div>
+    `;
+
+    let _registered_tmpl = (display_name) => `
+        <div class="row border-bottom py-3">
+            <div class="col">
+                <p class="lead text-muted small">${display_name} has joined the chat.</p>
+            </div>
+        </div>
+    `;
+
+    let _deregistered_tmpl = (display_name) => `
+        <div class="row border-bottom py-3">
+            <div class="col">
+                <p class="lead text-muted small">${display_name} has left the chat.</p>
+            </div>
+        </div>
+    `;
+
     return () => {
         console.info("Initializing chat.js")
 
         let user = _get_user() || _set_user();
 
-        // alert(`Hello, ${user.display_name}!!!`);
+        $("#greeting").text(`Me llamo ${user.display_name}!!`)
 
         ws = new WebSocket("ws://localhost:8000/messages");
         ws.onmessage = event => {
             let $message_list = $("#message-list"),
-                $message = $("<li>");
-            $message.html(`<span style="color: #f00">${event.data}</span>`);
-            $message.appendTo($message_list);
+                $participant_list = $("#nav-participants > .container"),
+                event_obj = JSON.parse(event.data);
+            
+
+            if (event_obj.channel_membership) {
+                $participant_list.empty();
+                for (const participant of event_obj.channel_membership) {
+                    $participant_list.append(
+                        $(`<div class="row border-bottom p-3"><div class="col">${participant}</div></div>`)
+                    );
+                }
+                $("#nav-participants-tab > span").text(event_obj.channel_membership.length);
+            }
+            
+            if (event_obj.event_type === "message") {
+                $message_list
+                    .append($(_message_tmpl(event_obj.message_text, event_obj.display_name, event_obj.timestamp)));
+            }
+            else if (event_obj.event_type === "register_user") {
+                $message_list
+                    .append($(_registered_tmpl(event_obj.user.display_name)));
+            }
+            else if (event_obj.event_type === "deregister_user") {
+                $message_list
+                    .append($(_deregistered_tmpl(event_obj.user.display_name)));
+            }
         };
         ws.onopen = event => {
             _register_user(user);
